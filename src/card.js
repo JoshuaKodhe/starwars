@@ -1,7 +1,6 @@
 import React from 'react';
 
 const Card = ({
-  id,
   name,
   height,
   mass,

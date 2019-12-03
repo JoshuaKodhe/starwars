@@ -1,12 +1,12 @@
 import React from 'react';
 import Card from './card';
+import uuid from 'uuid/v4';
 
 const CardList = ({ people }) => {
 	const cardComponent = people.map((person, _) => {
 		return (
 			<Card
-				key={person.id}
-				id={person.id}
+				key={uuid()}
 				name={person.name}
 				height={person.height}
 				mass={person.mass}
