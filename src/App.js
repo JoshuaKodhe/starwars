@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import CardList from './CardList';
 import Pagination from './pagination';
+import { currentPage } from './helpers/pageHelper';
 import './index.css';
 
 class App extends Component {
@@ -8,12 +9,22 @@ class App extends Component {
 		super(props);
 		this.state = {
 			people: [],
+			currentPage: null,
+			nextPage: null,
+			total: null,
 		};
 	}
 	componentDidMount() {
 		fetch('https://swapi.co/api/people/')
 			.then(res => res.json())
-			.then(data => this.setState({ people: data.results }));
+			.then(data => {
+				console.log(data);
+				this.setState({
+					people: data.results,
+					currentPage: currentPage(data.next),
+					total: data.count,
+				});
+			});
 	}
 
 	render() {
@@ -21,7 +32,7 @@ class App extends Component {
 			<div className='app'>
 				<h1>Starwars Characters</h1>
 				<CardList people={this.state.people} />
-        <Pagination/>
+				<Pagination />
 			</div>
 		);
 	}
