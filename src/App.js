@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import CardList from './CardList';
+import Pagination from './pagination';
+import './index.css';
 
 class App extends Component {
 	constructor(props) {
@@ -16,10 +18,11 @@ class App extends Component {
 
 	render() {
 		return (
-			<React.Fragment>
+			<div className='app'>
 				<h1>Starwars Characters</h1>
 				<CardList people={this.state.people} />
-			</React.Fragment>
+        <Pagination/>
+			</div>
 		);
 	}
 }
