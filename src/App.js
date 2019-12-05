@@ -10,34 +10,39 @@ class App extends Component {
 		this.state = {
 			people: [],
 			currentPage: null,
-			nextPage: null,
+			peoplePerPage: null,
 			total: null,
 		};
 	}
 	componentDidMount() {
-    this.getPeople();
+		this.getPeople();
 	}
 	getPeople = async () => {
-    try{
-
-      let response = await fetch('https://swapi.co/api/people/');
-      const data = await response.json();
-      this.setState({
-        people: data.results,
-        currentPage: currentPage(data.next),
-        total: data.count,
-      });
-    }catch(err){
-      console.log(err);
-    }
+		try {
+			let response = await fetch('https://swapi.co/api/people/');
+			const data = await response.json();
+			this.setState({
+				people: data.results,
+				currentPage: currentPage(data.next),
+				peoplePerPage: data.results.length,
+				total: data.count,
+			});
+		} catch (err) {
+			console.log(err);
+		}
 	};
 
 	render() {
+		let paginationProps = {
+			currentPage: this.state.currentPage,
+			peoplePerPage: this.state.peoplePerPage,
+			total: this.state.total,
+		};
 		return (
 			<div className='app'>
 				<h1>Starwars Characters</h1>
 				<CardList people={this.state.people} />
-				<Pagination />
+				<Pagination {...paginationProps} />
 			</div>
 		);
 	}
