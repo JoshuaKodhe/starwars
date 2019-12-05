@@ -15,17 +15,22 @@ class App extends Component {
 		};
 	}
 	componentDidMount() {
-		fetch('https://swapi.co/api/people/')
-			.then(res => res.json())
-			.then(data => {
-				console.log(data);
-				this.setState({
-					people: data.results,
-					currentPage: currentPage(data.next),
-					total: data.count,
-				});
-			});
+    this.getPeople();
 	}
+	getPeople = async () => {
+    try{
+
+      let response = await fetch('https://swapi.co/api/people/');
+      const data = await response.json();
+      this.setState({
+        people: data.results,
+        currentPage: currentPage(data.next),
+        total: data.count,
+      });
+    }catch(err){
+      console.log(err);
+    }
+	};
 
 	render() {
 		return (
