@@ -1,33 +1,26 @@
 import React from 'react';
+import { LEFT_PAGE, RIGHT_PAGE } from './constants/constants';
 
-const Pagination = ({ currentPage, peoplePerPage, total }) => {
-	console.log('currentPage >>>', currentPage);
-	console.log('peoplePerPage >>>', peoplePerPage);
-	console.log('total >>>', total);
+const Pagination = ({
+	currentPage,
+	totalRecords,
+	moveToPage,
+	totalPages,
+	pages,
+}) => {
+	if (!totalRecords || totalPages === 1) return null;
 
-	const pageNumbers = [];
-	let renderPageNumbers;
-	if (total) {
-		for (let page = 1; page <= Math.ceil(total / peoplePerPage); page++) {
-			pageNumbers.push(page);
-		}
-
-		renderPageNumbers = pageNumbers.map(pageNumber => {
-			let activePage = currentPage === pageNumber ? 'active' : '';
-			return (
-				<span key={pageNumber} className={activePage}>
-					{pageNumber}
-				</span>
-			);
-		});
-	}
-	return (
-		<div className='pagination'>
-			<span>&laquo;</span>
-			{renderPageNumbers}
-			<span>&raquo;</span>
-		</div>
-	);
+	let renderPagination = pages.map((page, index) => {
+		let activePage = currentPage === page ? 'active' : '';
+		if (page === LEFT_PAGE) return <span key={index}>&laquo;</span>;
+		if (page === RIGHT_PAGE) return <span key={index}>&raquo;</span>;
+		return (
+			<span key={index} id={page} className={activePage} onClick={moveToPage}>
+				{page}
+			</span>
+		);
+	});
+	return <div className='pagination'>{renderPagination}</div>;
 };
 
 export default Pagination;
